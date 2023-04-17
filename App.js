@@ -9,7 +9,7 @@ function App() {
     <SafeAreaView style={generalStyles.flex1}>
       <Header title="My Todo App" />
       <View>
-        <Text>Text1111</Text>
+        <Text>Text1112</Text>
         <Icon name="pluscircle" size={25} color="red" />
       </View>
     </SafeAreaView>
