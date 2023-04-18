@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: fontFamilies.bold,
     fontSize: 20,
-    color: colors.textSecondary,
+    color: colors.textThree,
   },
 });
 
