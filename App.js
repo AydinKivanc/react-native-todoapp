@@ -8,9 +8,11 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Header from './src/components/header';
-import generalStyles from './src/utils/generalStyles';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Todo from './src/components/todo';
 import Input from './src/components/input';
+
+import Icon from 'react-native-vector-icons/AntDesign';
+import generalStyles from './src/utils/generalStyles';
 import {colors, fontFamilies} from './src/utils/constants';
 
 function App() {
@@ -45,7 +47,10 @@ function App() {
           <Text style={styles.emptyText}>Your todo list is empty</Text>
         ) : (
           <ScrollView style={styles.ScrollView}>
-            <Text>Todo array is not empty now</Text>
+            {/* <Text>Todo array is not empty now</Text> */}
+            {todos?.map(todoItem => (
+              <Todo key={todoItem?.id} todoItem={todoItem} />
+            ))}
           </ScrollView>
         )}
       </View>
@@ -56,7 +61,7 @@ function App() {
 const styles = StyleSheet.create({
   todosWrapper: {
     flex: 1,
-    borderWidth: 1,
+    //borderWidth: 1,
     marginHorizontal: 20,
     //marginVertical: 5,
   },

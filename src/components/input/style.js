@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     height: 40,
     paddingHorizontal: 10,
-    color: colors.textPrimary,
+    color: colors.textOne,
     fontSize: 16,
   },
   icon: {

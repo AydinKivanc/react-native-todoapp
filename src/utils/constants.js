@@ -9,6 +9,8 @@ export const colors = {
   textPrimary: '#0B2447',
   textWhite: '#EEEEEE',
   textPlaceHolder: '#BBBBBB',
+  green: '#AACB73',
+  danger: '#F45050',
 };
 
 export const fontFamilies = {
