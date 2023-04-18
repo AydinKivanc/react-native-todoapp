@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.bgThree,
     flexDirection: 'row',
-    alignItems: 'center',
+    //alignItems: 'center',
   },
   title: {
     fontFamily: fontFamilies.semiBold,
