@@ -14,11 +14,21 @@ const styles = StyleSheet.create({
     color: colors.textOne,
     fontSize: 20,
   },
+  complitedTitle: {
+    color: colors.danger,
+    textDecorationLine: 'line-through',
+  },
   date: {
     fontFamily: fontFamilies.regular,
     color: colors.bgTwo,
     marginTop: 5,
   },
+  dateCompleted: {
+    fontFamily: fontFamilies.regular,
+    color: colors.danger,
+    marginTop: 5,
+  },
+
   textWrapper: {
     flex: 1,
   },

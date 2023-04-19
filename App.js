@@ -20,10 +20,21 @@ function App() {
   const [todos, setTodos] = useState([]);
   const addTodo = () => {
     //Alert.alert(text);
+    if (text.length === 0) {
+      return;
+    }
+    const now = new Date();
+    const formattedDate =
+      now.toLocaleDateString('uk-UK') +
+      ' ' +
+      now.getHours() +
+      ':' +
+      String(now.getMinutes()).padStart(2, '0');
+
     const newTodo = {
       id: String(new Date().getTime()),
       text: text,
-      date: new Date(),
+      date: formattedDate,
       completed: false,
     };
     setTodos([...todos, newTodo]);
@@ -49,7 +60,12 @@ function App() {
           <ScrollView style={styles.ScrollView}>
             {/* <Text>Todo array is not empty now</Text> */}
             {todos?.map(todoItem => (
-              <Todo key={todoItem?.id} todoItem={todoItem} />
+              <Todo
+                key={todoItem?.id}
+                todoItem={todoItem}
+                todos={todos}
+                setTodos={setTodos}
+              />
             ))}
           </ScrollView>
         )}
