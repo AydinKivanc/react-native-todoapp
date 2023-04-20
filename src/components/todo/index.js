@@ -1,10 +1,18 @@
 import {Text, TouchableOpacity, View, Alert} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+
 import Icon from 'react-native-vector-icons/AntDesign';
 import {colors} from '../../utils/constants';
 import styles from './style';
 
+import EditModal from '../editModal';
+
 const Todo = ({todoItem = {}, todos = [], setTodos = () => {}}) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [willEditText, setWillEditText] = useState(todoItem?.text);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const deleteTodo = () => {
     Alert.alert(
       'Delete Action', // first parameter is TITLE
@@ -55,6 +63,34 @@ const Todo = ({todoItem = {}, todos = [], setTodos = () => {}}) => {
       },
     ]);
   };
+  const editTodo = () => {
+    /* VALIDATION */
+    if (willEditText === '') {
+      setHasError(true);
+      setErrorMessage('* Type your todo please');
+      setTimeout(() => {
+        setHasError(false);
+        setErrorMessage('');
+      }, 2000);
+      return;
+    }
+    /* UPDATE TODO */
+    const tempUpdatedTodos = [];
+    for (let i = 0; i < todos.length; i++) {
+      if (todos[i].id !== todoItem.id) {
+        tempUpdatedTodos.push(todos[i]);
+      } else {
+        const updatedTodos = {
+          ...todoItem,
+          text: willEditText,
+        };
+        tempUpdatedTodos.push(updatedTodos);
+      }
+    }
+    setTodos(tempUpdatedTodos);
+    setOpenModal(false);
+  };
+
   const now = new Date();
   const completedDate =
     now.toLocaleDateString('uk-UK') +
@@ -82,13 +118,22 @@ const Todo = ({todoItem = {}, todos = [], setTodos = () => {}}) => {
             color={colors.textTwo}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setOpenModal(true)}>
           <Icon name="edit" size={25} color={colors.bgTwo} />
         </TouchableOpacity>
         <TouchableOpacity onPress={deleteTodo}>
           <Icon name="closecircle" size={25} color={colors.danger} />
         </TouchableOpacity>
       </View>
+      <EditModal
+        visible={openModal}
+        closeModal={() => setOpenModal(false)}
+        willEditText={willEditText}
+        setWillEditText={setWillEditText}
+        onConfirm={editTodo}
+        hasError={hasError}
+        errorMessage={errorMessage}
+      />
     </View>
   );
 };

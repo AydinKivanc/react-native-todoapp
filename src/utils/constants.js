@@ -11,6 +11,9 @@ export const colors = {
   textPlaceHolder: '#BBBBBB',
   green: '#AACB73',
   danger: '#F45050',
+  modalBg: '#0000004D',
+  modelBtnBorder: '#d6d4d5',
+  modalBtnText: '#1987ff',
 };
 
 export const fontFamilies = {
