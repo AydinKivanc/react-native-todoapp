@@ -1,4 +1,4 @@
-![gif](https://user-images.githubusercontent.com/63602100/233807080-8503c245-15b6-4333-bbc6-f8fbe60ee4cb.gif)
+https://user-images.githubusercontent.com/63602100/233807428-65dabbfa-fbfa-4e6f-a1fe-0f502c5b4f7b.mp4
 
 # React Native CLI
 
