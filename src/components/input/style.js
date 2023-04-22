@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   icon: {
-    fontSize: 40,
+    //fontSize: 40,
     color: colors.bgOne,
     marginLeft: 10,
   },

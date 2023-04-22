@@ -6,6 +6,7 @@ import {colors} from '../../utils/constants';
 import styles from './style';
 
 import EditModal from '../editModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Todo = ({todoItem = {}, todos = [], setTodos = () => {}}) => {
   const [openModal, setOpenModal] = useState(false);
@@ -29,7 +30,12 @@ const Todo = ({todoItem = {}, todos = [], setTodos = () => {}}) => {
             const filteredTodos = todos.filter(
               item => item?.id !== todoItem.id,
             );
-            setTodos(filteredTodos);
+            //setTodos(filteredTodos);
+            AsyncStorage.setItem('@todos', JSON.stringify(filteredTodos))
+              .then(() => setTodos(filteredTodos))
+              .catch(err => {
+                Alert.alert('Error', 'Error occurred during saving');
+              });
           },
           style: 'destructive',
         },
@@ -45,19 +51,24 @@ const Todo = ({todoItem = {}, todos = [], setTodos = () => {}}) => {
       {
         text: 'OK',
         onPress: () => {
-          const updatedTodos = [];
+          const tempTodos = [];
           for (let i = 0; i < todos.length; i++) {
             if (todos[i].id !== todoItem.id) {
-              updatedTodos.push(todos[i]);
+              tempTodos.push(todos[i]);
             } else {
               const newTodo = {
                 ...todoItem,
                 completed: !todoItem.completed,
               };
-              updatedTodos.push(newTodo);
+              tempTodos.push(newTodo);
             }
           }
-          setTodos(updatedTodos);
+          // setTodos(tempTodos);
+          AsyncStorage.setItem('@todos', JSON.stringify(tempTodos))
+            .then(() => setTodos(tempTodos))
+            .catch(err => {
+              Alert.alert('Error', 'Error occurred during saving');
+            });
         },
         style: 'destructive',
       },
@@ -75,20 +86,28 @@ const Todo = ({todoItem = {}, todos = [], setTodos = () => {}}) => {
       return;
     }
     /* UPDATE TODO */
-    const tempUpdatedTodos = [];
+    const tempTodos = [];
     for (let i = 0; i < todos.length; i++) {
       if (todos[i].id !== todoItem.id) {
-        tempUpdatedTodos.push(todos[i]);
+        tempTodos.push(todos[i]);
       } else {
         const updatedTodos = {
           ...todoItem,
           text: willEditText,
         };
-        tempUpdatedTodos.push(updatedTodos);
+        tempTodos.push(updatedTodos);
       }
     }
-    setTodos(tempUpdatedTodos);
-    setOpenModal(false);
+    // setTodos(tempTodos);
+    // setOpenModal(false);
+    AsyncStorage.setItem('@todos', JSON.stringify(tempTodos))
+      .then(() => {
+        setTodos(tempTodos);
+        setOpenModal(false);
+      })
+      .catch(err => {
+        Alert.alert('Error', 'Error occurred during saving');
+      });
   };
 
   const now = new Date();
@@ -100,30 +119,34 @@ const Todo = ({todoItem = {}, todos = [], setTodos = () => {}}) => {
     String(now.getMinutes()).padStart(2, '0');
   return (
     <View style={styles.todoWrapper}>
+      <View style={styles.firstLineWrapper}>
+        <View style={styles.dateWrapper}>
+          <Text style={styles.date}>{todoItem?.date} Created</Text>
+          {todoItem?.completed && (
+            <Text style={styles.dateCompleted}>{completedDate} Completed</Text>
+          )}
+        </View>
+        <View style={styles.iconsWrapper}>
+          <TouchableOpacity onPress={changeCopmleted}>
+            <Icon
+              name={todoItem?.completed ? 'checkcircle' : 'checkcircleo'}
+              size={30}
+              color={colors.green}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setOpenModal(true)}>
+            <Icon name="edit" size={30} color={colors.bgTwo} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={deleteTodo}>
+            <Icon name="closecircle" size={30} color={colors.danger} />
+          </TouchableOpacity>
+        </View>
+      </View>
       <View style={styles.textWrapper}>
         <Text
           style={[styles.title, todoItem?.completed && styles.complitedTitle]}>
           {todoItem?.text}
         </Text>
-        <Text style={styles.date}>{todoItem?.date} Created</Text>
-        {todoItem?.completed && (
-          <Text style={styles.dateCompleted}>{completedDate} Completed</Text>
-        )}
-      </View>
-      <View style={styles.iconsWrapper}>
-        <TouchableOpacity onPress={changeCopmleted}>
-          <Icon
-            name={todoItem?.completed ? 'checkcircle' : 'checkcircleo'}
-            size={25}
-            color={colors.textTwo}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setOpenModal(true)}>
-          <Icon name="edit" size={25} color={colors.bgTwo} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={deleteTodo}>
-          <Icon name="closecircle" size={25} color={colors.danger} />
-        </TouchableOpacity>
       </View>
       <EditModal
         visible={openModal}

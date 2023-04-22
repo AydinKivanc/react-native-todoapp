@@ -6,7 +6,7 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Header from './src/components/header';
 import Todo from './src/components/todo';
 import Input from './src/components/input';
@@ -14,6 +14,7 @@ import Input from './src/components/input';
 import Icon from 'react-native-vector-icons/AntDesign';
 import generalStyles from './src/utils/generalStyles';
 import {colors, fontFamilies} from './src/utils/constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function App() {
   const [text, setText] = useState('');
@@ -37,10 +38,33 @@ function App() {
       date: formattedDate,
       completed: false,
     };
-    setTodos([...todos, newTodo]);
-    setText('');
+    // Async storage a gecmeden once state i bu iki satir ile guncelliyorduk
+    // setTodos([...todos, newTodo]);
+    // setText('');
+    AsyncStorage.setItem('@todos', JSON.stringify([...todos, newTodo]))
+      .then(() => {
+        setTodos([...todos, newTodo]);
+        setText('');
+      })
+      .catch(err => {
+        Alert.alert('Error', 'Error occurred during saving');
+      });
   };
 
+  useEffect(() => {
+    AsyncStorage.getItem('@todos')
+      .then(res => {
+        console.log('>> Todos Response', res); // Firstly coming null. That's why we can write logic in if block
+        // if the res is not null
+        if (res !== null) {
+          const parsedRes = JSON.parse(res);
+          setTodos(parsedRes);
+        }
+      })
+      .catch(err => {
+        console.log('>> Todos Error', err);
+      });
+  }, []);
   return (
     <SafeAreaView style={[generalStyles.flex1, generalStyles.bgWhite]}>
       <Header title="My Todo App" />

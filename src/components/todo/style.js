@@ -3,10 +3,11 @@ import {colors, fontFamilies} from '../../utils/constants';
 
 const styles = StyleSheet.create({
   todoWrapper: {
-    padding: 20,
+    paddingTop: 10,
+    paddingLeft: 5,
     borderBottomWidth: 1,
     borderBottomColor: colors.bgThree,
-    flexDirection: 'row',
+    //flexDirection: 'row',
     //alignItems: 'center',
   },
   title: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   complitedTitle: {
-    color: colors.danger,
+    color: colors.green,
     textDecorationLine: 'line-through',
   },
   date: {
@@ -25,16 +26,24 @@ const styles = StyleSheet.create({
   },
   dateCompleted: {
     fontFamily: fontFamilies.regular,
-    color: colors.danger,
+    color: colors.green,
     marginTop: 5,
   },
-
-  textWrapper: {
+  firstLineWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  dateWrapper: {
     flex: 1,
   },
   iconsWrapper: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 15,
+  },
+  textWrapper: {
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 15,
   },
 });
 export default styles;
