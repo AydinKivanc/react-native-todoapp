@@ -9,8 +9,11 @@ export const colors = {
   textPrimary: '#0B2447',
   textWhite: '#EEEEEE',
   textPlaceHolder: '#BBBBBB',
-  green: '#AACB73',
+  green: '#5D9C59',
   danger: '#F45050',
+  modalBg: '#0000004D',
+  modelBtnBorder: '#d6d4d5',
+  modalBtnText: '#1987ff',
 };
 
 export const fontFamilies = {
